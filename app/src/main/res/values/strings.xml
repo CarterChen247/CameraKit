@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CameraDemo</string>
+      <string name="mcam_image_preview_error_message">Could not decode bitmap</string>
+</resources>
