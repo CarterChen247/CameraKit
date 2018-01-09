@@ -8,7 +8,7 @@ import me.kazaf.camerakit.config.ICameraConfig;
 
 public interface ICameraPresenter {
 
-    void setCameraViewCallback(ICameraViewCallback view);
+    void setUserActionCallback(UserActionCallback view);
 
     void setOnPictureCapturedCallback(OnPictureCapturedCallback pictureCapturedCallback);
 

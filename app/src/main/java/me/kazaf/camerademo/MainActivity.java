@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -13,7 +12,7 @@ import android.widget.RelativeLayout;
 import java.io.File;
 
 import me.kazaf.camerakit.core.CameraPresenter;
-import me.kazaf.camerakit.core.ICameraViewCallback;
+import me.kazaf.camerakit.core.UserActionCallback;
 
 import me.kazaf.camerakit.config.CameraConfig;
 import me.kazaf.camerakit.core.OnPictureCapturedCallback;
@@ -23,7 +22,7 @@ import me.kazaf.camerakit.util.ImageUtil;
  * Created by kazaf on 2018/1/4.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ICameraViewCallback, OnPictureCapturedCallback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, UserActionCallback, OnPictureCapturedCallback {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CameraConfig config = new CameraConfig();
         cameraPresenter = new CameraPresenter(this, preview, config);
         cameraPresenter.forceFullScreenPreview(false);
-        cameraPresenter.setCameraViewCallback(this);
+        cameraPresenter.setUserActionCallback(this);
         cameraPresenter.setOnPictureCapturedCallback(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);

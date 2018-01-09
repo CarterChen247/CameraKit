@@ -35,7 +35,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
 
     private CameraPreview preview;
     private ICameraConfig config;
-    private ICameraViewCallback view;
+    private UserActionCallback view;
     private OnPictureCapturedCallback pictureCapturedCallback;
 
     private boolean isFullScreenPreviewForced;
@@ -52,7 +52,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     }
 
     @Override
-    public void setCameraViewCallback(ICameraViewCallback view) {
+    public void setUserActionCallback(UserActionCallback view) {
         this.view = view;
     }
 
