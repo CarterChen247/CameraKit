@@ -26,11 +26,12 @@ import me.kazaf.camerakit.util.ImageUtil;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ICameraViewCallback, OnPictureCapturedCallback {
 
     private final String TAG = MainActivity.class.getSimpleName();
-    CameraPresenter cameraPresenter;
 
     ImageButton facing;
     ImageButton flash;
     ImageButton capture;
+
+    CameraPresenter cameraPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,13 +131,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final File outputFile = ImageUtil.makeTempFile(this, ImageUtil.createSaveDir("photo"), "camera", ".jpg");
 
-
         ImageUtil.saveToDiskAsync(data, outputFile, new ImageUtil.ICallback() {
             @Override
             public void done(Exception exception) {
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-                intent.putExtra("file", outputFile.getAbsolutePath());
-                intent.putExtra("isFrontCamera", cameraPosition);
+                intent.putExtra(Constant.FILE, outputFile.getAbsolutePath());
+                intent.putExtra(Constant.IS_FRONT_CAMERA, cameraPosition);
                 startActivity(intent);
             }
         });

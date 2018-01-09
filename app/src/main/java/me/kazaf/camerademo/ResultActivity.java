@@ -27,24 +27,19 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blank);
         img = (ImageView) findViewById(R.id.img);
-        path = getIntent().getExtras().getString("file");
-        isFrontCamera = getIntent().getBooleanExtra("isFrontCamera", false);
+        path = getIntent().getExtras().getString(Constant.FILE);
+        isFrontCamera = getIntent().getBooleanExtra(Constant.IS_FRONT_CAMERA, false);
 
-        img
-                .getViewTreeObserver()
-                .addOnPreDrawListener(
-                        new ViewTreeObserver.OnPreDrawListener() {
+        img.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                             @Override
                             public boolean onPreDraw() {
                                 setImageBitmap();
                                 img.getViewTreeObserver().removeOnPreDrawListener(this);
-
                                 return true;
                             }
                         });
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
     }
 
     /** Sets bitmap to ImageView widget */
