@@ -232,9 +232,9 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
             container.removeViewAt(0);
         container.addView(preview, 0);
 
-        if (!isFullScreenPreviewForced){
+        if (!isFullScreenPreviewForced) {
             preview.setAspectRatio(containerSize.x, containerSize.y);
-        }else{
+        } else {
             Point screenSize = new Point();
             activity.getWindowManager().getDefaultDisplay().getSize(screenSize);
             preview.setAspectRatio(screenSize.x, screenSize.y);
@@ -253,8 +253,9 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     @Override
     public void releaseCamera() {
         try {
-            preview= null;
+            preview.getSurfaceTexture().release();
         } catch (Throwable ignored) {
+
         }
         container = null;
     }
