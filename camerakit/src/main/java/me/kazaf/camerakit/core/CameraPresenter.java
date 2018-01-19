@@ -33,7 +33,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     private int displayOrientation;
     private boolean isAutoFocusing;
 
-    private CameraPreview preview;
+    private CameraTexturePreview preview;
     private ICameraConfig config;
     private UserActionCallback view;
     private OnPictureCapturedCallback pictureCapturedCallback;
@@ -227,8 +227,8 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
 
     private void initPreviewView() {
         if (activity == null) return;
-        preview = new CameraPreview(activity, camera);
-        if (container.getChildCount() > 0 && container.getChildAt(0) instanceof CameraPreview)
+        preview = new CameraTexturePreview(activity, camera);
+        if (container.getChildCount() > 0 && container.getChildAt(0) instanceof CameraTexturePreview)
             container.removeViewAt(0);
         container.addView(preview, 0);
 
@@ -253,7 +253,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     @Override
     public void releaseCamera() {
         try {
-            preview.getHolder().getSurface().release();
+            preview= null;
         } catch (Throwable ignored) {
         }
         container = null;
