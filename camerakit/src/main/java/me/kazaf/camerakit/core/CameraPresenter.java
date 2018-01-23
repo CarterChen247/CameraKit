@@ -298,10 +298,18 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
         //            // We could have configurable shutter sound here
         //            camera.enableShutterSound(false);
         //        }
-        if (view != null) {
-            view.onCaptureButtonShouldLock();
+        try {
+
+            if (view != null) {
+                view.onCaptureButtonShouldLock();
+            }
+            camera.takePicture(createShutterCallback(), createRawCallback(), createJpegCallback());
+
+        } catch (Exception ex) {
+
+            // error
+
         }
-        camera.takePicture(createShutterCallback(), createRawCallback(), createJpegCallback());
     }
 
     @NonNull
