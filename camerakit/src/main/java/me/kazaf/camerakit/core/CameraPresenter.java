@@ -284,7 +284,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
                         public void onAutoFocus(boolean success, Camera camera) {
                             isAutoFocusing = false;
                             if (!success)
-                                Toast.makeText(activity, "Unable to auto-focus!", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Unable to auto-focus!");
                         }
                     });
         } catch (Throwable t) {
