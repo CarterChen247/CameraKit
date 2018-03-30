@@ -113,7 +113,7 @@ public class Degrees {
       case DEGREES_270:
         return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
       default:
-        Log.e("Degrees", "Unknown screen orientation. Defaulting to portrait.");
+        CameraLogger.log("Degrees", "Unknown screen orientation. Defaulting to portrait.");
         return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
   }

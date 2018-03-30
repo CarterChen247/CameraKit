@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import me.kazaf.camerakit.util.CameraLogger;
 import me.kazaf.camerakit.util.CameraUtil;
 import me.kazaf.camerakit.config.CameraConstant;
 import me.kazaf.camerakit.config.ICameraConfig;
@@ -104,10 +105,10 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
             onCameraOpened();
 
         } catch (IllegalStateException e) {
-            Log.e("exception", e.toString());
+            CameraLogger.log("exception", e.toString());
             throwError(new Exception("Cannot access the camera.", e));
         } catch (RuntimeException e2) {
-            Log.e("exception", e2.toString());
+            CameraLogger.log("exception", e2.toString());
             throwError(new Exception("Cannot access the camera, you may need to restart your config.", e2));
         }
     }
@@ -156,7 +157,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
                 }
             }
         }
-        Log.e(TAG, "previewSize=" + previewSize.width + "," + previewSize.height);
+        CameraLogger.log(TAG, "previewSize=" + previewSize.width + "," + previewSize.height);
         return previewSize;
     }
 
@@ -177,7 +178,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
                 deviceOrientation,
                 info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT
         );
-        Log.d("CameraFragment", String.format("Orientations: Sensor = %d˚, CameraConfig = %d˚, Display = %d˚", info.orientation, deviceOrientation, displayOrientation));
+        CameraLogger.log("CameraFragment", String.format("Orientations: Sensor = %d˚, CameraConfig = %d˚, Display = %d˚", info.orientation, deviceOrientation, displayOrientation));
 
         int previewOrientation;
         int jpegOrientation;
@@ -284,7 +285,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
                         public void onAutoFocus(boolean success, Camera camera) {
                             isAutoFocusing = false;
                             if (!success)
-                                Log.e(TAG, "Unable to auto-focus!");
+                                CameraLogger.log(TAG, "Unable to auto-focus!");
                         }
                     });
         } catch (Throwable t) {
@@ -330,7 +331,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     private Camera.PictureCallback createRawCallback() {
         return new Camera.PictureCallback() {
             public void onPictureTaken(byte[] data, Camera camera) {
-                //Log.d(TAG, "onPictureTaken - raw. Raw is null: " + (data == null));
+                //CameraLogger.log(TAG, "onPictureTaken - raw. Raw is null: " + (data == null));
             }
         };
     }
@@ -339,13 +340,13 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     private Camera.ShutterCallback createShutterCallback() {
         return new Camera.ShutterCallback() {
             public void onShutter() {
-                //Log.d(TAG, "onShutter'd");
+                //CameraLogger.log(TAG, "onShutter'd");
             }
         };
     }
 
     private void throwError(Exception e) {
-        Log.e(TAG, "error=" + e.toString());
+        CameraLogger.log(TAG, "error=" + e.toString());
     }
 
     private void reopenCamera() {

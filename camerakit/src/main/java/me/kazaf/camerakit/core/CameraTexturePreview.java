@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.TextureView;
 
+import me.kazaf.camerakit.util.CameraLogger;
+
 class CameraTexturePreview extends TextureView implements TextureView.SurfaceTextureListener {
 
   private static final String TAG = CameraTexturePreview.class.getSimpleName();
@@ -51,7 +53,7 @@ class CameraTexturePreview extends TextureView implements TextureView.SurfaceTex
       mCamera.setPreviewTexture(surfaceTexture);
       mCamera.startPreview();
     } catch (Throwable e) {
-      Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+      CameraLogger.log(TAG, "Error setting camera preview: " + e.getMessage());
     }
   }
 

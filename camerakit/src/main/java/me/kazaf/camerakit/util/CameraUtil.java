@@ -19,6 +19,8 @@ import me.kazaf.camerakit.core.CameraPresenter;
 
 public class CameraUtil {
 
+    public static final String TAG = CameraUtil.class.getSimpleName();
+
     public static List<Integer> getSupportedFlashModes(
             Context context, Camera.Parameters parameters) {
         //check has system feature for flash
@@ -79,10 +81,10 @@ public class CameraUtil {
 
         for (Camera.Size sizePicture : supportedPictureSizes) {
             double aspectRatioPicture = (double) sizePicture.height / sizePicture.width;
-            Log.e("camera", "preview, picture=" + aspectRatioPreview + "," + aspectRatioPreview);
+            CameraLogger.log(TAG, "preview, picture=" + aspectRatioPreview + "," + aspectRatioPreview);
             if (aspectRatioPicture == aspectRatioPreview && sizePicture.width >= sizePreview.width && sizePicture.height >= sizePreview.height) {
                 bigEnough.add(sizePicture);
-                Log.e("camera", "add picture size=" + sizePicture.height + "," + sizePicture.width);
+                CameraLogger.log(TAG, "add picture size=" + sizePicture.height + "," + sizePicture.width);
             } else {
                 alternatives.add(sizePicture);
             }
@@ -91,11 +93,11 @@ public class CameraUtil {
         // Pick the biggest of those, assuming we found any
         if (bigEnough.size() > 0) {
             Camera.Size maxSize = Collections.max(bigEnough, new CameraUtil.CompareSizesByArea());
-            Log.d("CameraFragment", "Using resolution: " + maxSize.width + "x" + maxSize.height);
+            CameraLogger.log(TAG, "Using resolution: " + maxSize.width + "x" + maxSize.height);
             return maxSize;
 
         } else {
-            Log.e(CameraUtil.class.getSimpleName(), "Couldn't find any suitable picture size");
+            CameraLogger.log(TAG, "Couldn't find any suitable picture size");
 
             // do comparison from big to small
             Collections.sort(alternatives,  new CameraUtil.CompareSizesByAreaDesc());
@@ -133,7 +135,7 @@ public class CameraUtil {
                     }
                 }
 
-                Log.e(CameraUtil.class.getSimpleName(), " Use alternative size height=" + aspectRatioNearest.height + ", width=" + aspectRatioNearest.width);
+                CameraLogger.log(TAG, " Use alternative size height=" + aspectRatioNearest.height + ", width=" + aspectRatioNearest.width);
                 return aspectRatioNearest;
             }
         }
@@ -149,8 +151,8 @@ public class CameraUtil {
 
         for (Camera.Size option : choices) {
             double aspectRatioPreview = (double) option.height / option.width;
-            Log.e("camera", "frame, preview=" + aspectRatioFrame + "," + aspectRatioPreview);
-            Log.e("camera", "preview=" + option.height + "," + option.width);
+            CameraLogger.log(TAG, "frame, preview=" + aspectRatioFrame + "," + aspectRatioPreview);
+            CameraLogger.log(TAG, "preview=" + option.height + "," + option.width);
 
             if (aspectRatioPreview != aspectRatioFrame) {
                 continue;
@@ -168,7 +170,7 @@ public class CameraUtil {
         } else if (notBigEnough.size() > 0) {
             return Collections.max(notBigEnough, new CameraUtil.CompareSizesByArea());
         } else {
-            Log.e(CameraPresenter.class.getSimpleName(), "Couldn't find any suitable preview size");
+            CameraLogger.log(TAG, "Couldn't find any suitable preview size");
             return null;
         }
     }
@@ -195,8 +197,8 @@ public class CameraUtil {
 
         for (Camera.Size option : choices) {
             double aspectRatioPreview = (double) option.height / option.width;
-            Log.e("camera", "frame, preview=" + aspectRatioFrame + "," + aspectRatioPreview);
-            Log.e("camera", "preview=" + option.height + "," + option.width);
+            CameraLogger.log(TAG, "frame, preview=" + aspectRatioFrame + "," + aspectRatioPreview);
+            CameraLogger.log(TAG, "preview=" + option.height + "," + option.width);
 
             if (aspectRatioPreview != aspectRatioNearest) {
                 continue;
@@ -214,7 +216,7 @@ public class CameraUtil {
         } else if (notBigEnough.size() > 0) {
             return Collections.max(notBigEnough, new CameraUtil.CompareSizesByArea());
         } else {
-            Log.e(CameraPresenter.class.getSimpleName(), "Couldn't find any suitable preview size");
+            CameraLogger.log(TAG, "Couldn't find any suitable preview size");
             return null;
         }
     }

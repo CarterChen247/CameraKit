@@ -41,7 +41,7 @@ public class ImageUtil {
             public void run() {
                 try {
                     FileOutputStream outputStream = new FileOutputStream(output);
-                    Log.e("saveToDiskAsync", "file=" + output.getAbsolutePath());
+                    CameraLogger.log("saveToDiskAsync", "file=" + output.getAbsolutePath());
                     outputStream.write(input);
                     outputStream.flush();
                     outputStream.close();
@@ -103,7 +103,7 @@ public class ImageUtil {
 
         Matrix matrix = new Matrix();
         matrix.preRotate(rotationInDegrees);
-        Log.e("degree", "rotationInDegrees=" + rotationInDegrees);
+        CameraLogger.log("degree", "rotationInDegrees=" + rotationInDegrees);
         if (isFlip) {
             if (rotationInDegrees % 180 == 0) {
                 matrix.preScale(-1, 1);
@@ -155,7 +155,7 @@ public class ImageUtil {
             final String result =
                     exif.getAttribute(ExifInterface.TAG_ORIENTATION);
 
-            Log.e("exif", "result=" + result);
+            CameraLogger.log("exif", "result=" + result);
 
             final int exifOrientation =
                     exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
@@ -167,9 +167,10 @@ public class ImageUtil {
                 return 270;
             }
 
-            Log.e("exif", "exifOrientation=" + exifOrientation);
+            CameraLogger.log("exif", "exifOrientation=" + exifOrientation);
         } catch (IOException e) {
-            Log.e("exif", "Error when trying to get exif data from : " + inputFile, e);
+            CameraLogger.log("exif", "Error when trying to get exif data from : " + inputFile);
+            CameraLogger.log("exif", "e="+e.toString());
         }
         return 0;
     }
