@@ -60,21 +60,31 @@ public class CameraUtil {
             // We cast here to ensure the multiplications won't overflow
             return Long.signum((long) lhs.width * lhs.height - (long) rhs.width * rhs.height);
         }
-
     }
 
+    public static class CompareSizesByAreaDesc implements Comparator<Camera.Size> {
+        @Override
+        public int compare(Camera.Size lhs, Camera.Size rhs) {
+            return Long.signum(- (long) lhs.width * lhs.height +  (long) rhs.width * rhs.height);
+        }
+
+    }
 
     public static Camera.Size getHighestSupportedStillShotSize(List<Camera.Size> supportedPictureSizes, Camera.Size sizePreview) {
         double aspectRatioPreview = (double) sizePreview.height / sizePreview.width;
 
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Camera.Size> bigEnough = new ArrayList<>();
+        List<Camera.Size> alternatives = new ArrayList<>();
+
         for (Camera.Size sizePicture : supportedPictureSizes) {
             double aspectRatioPicture = (double) sizePicture.height / sizePicture.width;
             Log.e("camera", "preview, picture=" + aspectRatioPreview + "," + aspectRatioPreview);
             if (aspectRatioPicture == aspectRatioPreview && sizePicture.width >= sizePreview.width && sizePicture.height >= sizePreview.height) {
                 bigEnough.add(sizePicture);
-                Log.e("camera", "add picture size=" + sizePicture.width + "," + sizePicture.height);
+                Log.e("camera", "add picture size=" + sizePicture.height + "," + sizePicture.width);
+            } else {
+                alternatives.add(sizePicture);
             }
         }
 
@@ -83,9 +93,49 @@ public class CameraUtil {
             Camera.Size maxSize = Collections.max(bigEnough, new CameraUtil.CompareSizesByArea());
             Log.d("CameraFragment", "Using resolution: " + maxSize.width + "x" + maxSize.height);
             return maxSize;
+
         } else {
             Log.e(CameraUtil.class.getSimpleName(), "Couldn't find any suitable picture size");
-            return null;
+
+            // do comparison from big to small
+            Collections.sort(alternatives,  new CameraUtil.CompareSizesByAreaDesc());
+
+            if (alternatives.size() == 0) {
+
+                // unfortunately don't expect to see it, will solve it in future
+                return null;
+
+            } else {
+
+                Camera.Size aspectRatioNearest;
+
+                if (alternatives.size() == 1) {
+                    aspectRatioNearest = alternatives.get(0);
+                } else {
+
+                    // assume the 1st element is the nearest one
+                    aspectRatioNearest = alternatives.get(0);
+                    double distanceEucilidean = Math.abs(aspectRatioPreview - ((double) aspectRatioNearest.height / aspectRatioNearest.width));
+
+                    for (int i = 1; i < alternatives.size(); i++) {
+
+                        Camera.Size candidate = alternatives.get(i);
+                        double aspectRatio = ((double) candidate.height / candidate.width);
+                        double distanceCompare = Math.abs(aspectRatioPreview - aspectRatio);
+
+                        if (distanceCompare < distanceEucilidean) {
+
+                            // update most relevant one
+                            distanceEucilidean = distanceCompare;
+                            aspectRatioNearest = candidate;
+
+                        }
+                    }
+                }
+
+                Log.e(CameraUtil.class.getSimpleName(), " Use alternative size height=" + aspectRatioNearest.height + ", width=" + aspectRatioNearest.width);
+                return aspectRatioNearest;
+            }
         }
     }
 
