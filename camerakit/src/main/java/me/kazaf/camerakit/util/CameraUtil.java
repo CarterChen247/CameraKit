@@ -84,7 +84,7 @@ public class CameraUtil {
             Log.d("CameraFragment", "Using resolution: " + maxSize.width + "x" + maxSize.height);
             return maxSize;
         } else {
-            Log.e(CameraPresenter.class.getSimpleName(), "Couldn't find any suitable picture size");
+            Log.e(CameraUtil.class.getSimpleName(), "Couldn't find any suitable picture size");
             return null;
         }
     }
