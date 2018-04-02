@@ -3,13 +3,11 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 26
 
-
-
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "0.1.0"
+        versionName "0.1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,6 +20,13 @@ android {
         }
     }
 
+    android.libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${variant.name}-${defaultConfig.versionName}.aar"
+            }
+        }
+    }
 }
 
 dependencies {
