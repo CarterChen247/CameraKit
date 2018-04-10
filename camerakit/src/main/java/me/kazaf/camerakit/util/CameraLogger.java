@@ -12,7 +12,7 @@ public class CameraLogger {
 
     public static void log(String tag, String msg){
         if (isLoggingEnabled){
-            CameraLogger.log(tag, msg);
+            Log.e(tag, msg);
         }
     }
 }
