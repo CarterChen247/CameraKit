@@ -3,7 +3,7 @@ package com.carterchen247.camerakit.core;
 import android.app.Activity;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
