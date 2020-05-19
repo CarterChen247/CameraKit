@@ -83,8 +83,8 @@ class MainActivity : AppCompatActivity() {
             val outputFile = ImageUtil.makeTempFile(this@MainActivity, ImageUtil.createSaveDir("photo"), "camera", ".jpg")
             ImageUtil.saveToDiskAsync(data, outputFile) {
                 val intent = Intent(this@MainActivity, ResultActivity::class.java)
-                intent.putExtra(Constant.FILE, outputFile.absolutePath)
-                intent.putExtra(Constant.IS_FRONT_CAMERA, cameraPosition)
+                intent.putExtra(ResultActivity.FILE_PATH, outputFile.absolutePath)
+                intent.putExtra(ResultActivity.IS_FRONT_CAMERA, cameraPosition)
                 startActivity(intent)
             }
         }
