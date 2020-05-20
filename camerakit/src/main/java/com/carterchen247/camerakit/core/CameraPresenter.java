@@ -46,11 +46,6 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
     }
 
     @Override
-    public ICameraConfig getConfig() {
-        return config;
-    }
-
-    @Override
     public void setUserActionCallback(UserActionCallback view) {
         this.view = view;
     }

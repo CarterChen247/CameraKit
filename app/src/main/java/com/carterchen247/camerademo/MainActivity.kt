@@ -79,13 +79,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createPictureCapturedCallback(): OnPictureCapturedCallback {
-        return OnPictureCapturedCallback { data, cameraPosition ->
-            val outputFile = ImageUtil.makeTempFile(this@MainActivity, ImageUtil.createSaveDir("photo"), "camera", ".jpg")
-            ImageUtil.saveToDiskAsync(data, outputFile) {
-                val intent = Intent(this@MainActivity, ResultActivity::class.java)
-                intent.putExtra(ResultActivity.FILE_PATH, outputFile.absolutePath)
-                intent.putExtra(ResultActivity.IS_FRONT_CAMERA, cameraPosition)
-                startActivity(intent)
+        return object : OnPictureCapturedCallback {
+            override fun onPictureCaptured(data: ByteArray?, cameraPosition: Int) {
+                val outputFile = ImageUtil.makeTempFile(this@MainActivity, ImageUtil.createSaveDir("photo"), "camera", ".jpg")
+                ImageUtil.saveToDiskAsync(data, outputFile) {
+                    val intent = Intent(this@MainActivity, ResultActivity::class.java)
+                    intent.putExtra(ResultActivity.FILE_PATH, outputFile.absolutePath)
+                    intent.putExtra(ResultActivity.IS_FRONT_CAMERA, cameraPosition)
+                    startActivity(intent)
+                }
             }
         }
     }
