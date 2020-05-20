@@ -20,26 +20,30 @@ import com.carterchen247.camerakit.util.Degrees;
  * Created by kazaf on 2018/1/4.
  */
 
-public class CameraPresenter implements ICameraPresenter, ICameraAction {
+public class LegacyCameraPresenter implements ICameraPresenter, ICameraAction {
 
-    private final String TAG = CameraPresenter.class.getSimpleName();
+    private final String TAG = LegacyCameraPresenter.class.getSimpleName();
 
-    private Camera camera;
+
     private Activity activity;
     private RelativeLayout container;
+    private ICameraConfig config;
+    private UserActionCallback view;
+    private OnPictureCapturedCallback pictureCapturedCallback;
+
+    private Camera camera;
+
     private Point containerSize;
 
     private int displayOrientation;
     private boolean isAutoFocusing;
 
     private CameraTexturePreview preview;
-    private ICameraConfig config;
-    private UserActionCallback view;
-    private OnPictureCapturedCallback pictureCapturedCallback;
+
 
     private boolean isFullScreenPreviewForced;
 
-    public CameraPresenter(Activity activity, RelativeLayout container, ICameraConfig config) {
+    public LegacyCameraPresenter(Activity activity, RelativeLayout container, ICameraConfig config) {
         this.activity = activity;
         this.container = container;
         this.config = config;
