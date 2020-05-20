@@ -221,7 +221,7 @@ public class CameraPresenter implements ICameraPresenter, ICameraAction {
 
     private void initPreviewView() {
         if (activity == null) return;
-        preview = new CameraTexturePreview(activity, camera);
+        preview = CameraTexturePreview.newInstance(activity, camera);
         if (container.getChildCount() > 0 && container.getChildAt(0) instanceof CameraTexturePreview)
             container.removeViewAt(0);
         container.addView(preview, 0);
